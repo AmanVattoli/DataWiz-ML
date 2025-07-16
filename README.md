@@ -84,12 +84,7 @@ redis-server
 ### 5. Run the Application
 
 ```bash
-# Development mode
 npm run dev
-
-# Production mode
-npm run build
-npm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
