@@ -2,6 +2,9 @@
 
 ML-powered data quality analysis tool with machine learning capabilities for comprehensive data assessment and issue detection.
 
+<img width="1771" height="874" alt="image" src="https://github.com/user-attachments/assets/78c1be3f-fefd-4fc4-a7b5-67b07497d8be" />
+
+
 ## About DataWiz
 
 DataWiz is a comprehensive data quality analysis platform that leverages machine learning algorithms to automatically detect, analyze, and report data quality issues in CSV files. The tool combines traditional statistical analysis with advanced ML models to provide deep insights into your data's health and reliability.
@@ -19,9 +22,10 @@ DataWiz is a comprehensive data quality analysis platform that leverages machine
 
 - **Multi-Algorithm Analysis**: Employs ensemble methods using XGBoost, LightGBM, and TensorFlow for robust detection
 - **Real-time Processing**: Processes large datasets efficiently with batch processing capabilities
-- **Comprehensive Reporting**: Generates detailed reports with actionable insights and recommendations
-- **Scalable Architecture**: Built with modern web technologies for handling enterprise-scale data analysis
 - **User-friendly Interface**: Intuitive web interface requiring no technical expertise to operate
+
+<img width="1715" height="943" alt="image" src="https://github.com/user-attachments/assets/f068be08-7e51-46f5-8434-3e92eb719c77" />
+
 
 ## Features
 
