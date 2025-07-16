@@ -25,6 +25,8 @@ DataWiz is a comprehensive data quality analysis platform that leverages machine
 - **User-friendly Interface**: Intuitive web interface requiring no technical expertise to operate
 
 <img width="1715" height="943" alt="image" src="https://github.com/user-attachments/assets/f068be08-7e51-46f5-8434-3e92eb719c77" />
+<img width="1718" height="950" alt="image" src="https://github.com/user-attachments/assets/8a57b8f7-61d2-4cdf-917a-a80a94400136" />
+
 
 
 ## Features
