@@ -466,20 +466,7 @@ export function DataViewer({ fileData, issues = [], onClose }: DataViewerProps) 
         {/* Issue Legend */}
         {issues.length > 0 && (
           <div className="flex items-center space-x-4 mt-2 text-xs">
-            <span className="text-gray-400">Issue Severity:</span>
-            <div className="flex items-center space-x-1">
-              <div className="w-3 h-3 bg-red-500/30 border border-red-500/50 rounded"></div>
-              <span className="text-red-300">High</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <div className="w-3 h-3 bg-yellow-500/30 border border-yellow-500/50 rounded"></div>
-              <span className="text-yellow-300">Medium</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <div className="w-3 h-3 bg-orange-500/30 border border-orange-500/50 rounded"></div>
-              <span className="text-orange-300">Low</span>
-            </div>
-            <span className="text-gray-500 ml-4">Hover cells for details</span>
+            <span className="text-gray-500">Hover cells for details</span>
           </div>
         )}
       </CardHeader>
@@ -574,7 +561,7 @@ export function DataViewer({ fileData, issues = [], onClose }: DataViewerProps) 
                         style={{ minWidth: getColumnWidth(column), width: getColumnWidth(column) }}
                         onClick={() => handleCellClick(rowIndex, column)}
                         title={hasIssues 
-                          ? `${String(row[column] || '')}\n\nIssues:\n${cellIssues.map(issue => `• ${issue.description} (${issue.severity})`).join('\n')}`
+                          ? `${String(row[column] || '')}\n\nIssues:\n${cellIssues.map(issue => `• ${issue.description}`).join('\n')}`
                           : String(row[column] || '')
                         }
                       >

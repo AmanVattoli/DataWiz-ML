@@ -642,9 +642,7 @@ export function CleanDataTab() {
                               <Badge variant="secondary" className={`text-xs ${typeInfo.color} text-white border-0`}>
                                 {getIssueTypeName(issue.type)}
                               </Badge>
-                              <Badge variant="secondary" className={`text-xs ${getSeverityColor(issue.severity)} text-white border-0`}>
-                                {issue.severity}
-                              </Badge>
+
                               {issue.fixed && (
                                 <Badge variant="secondary" className="text-xs bg-green-600 text-white border-0">
                                   ✓ Fixed
@@ -682,12 +680,7 @@ export function CleanDataTab() {
                         </div>
                       </div>
                       
-                      {/* Issue severity badge */}
-                      <div className="flex items-center ml-4">
-                        <Badge variant="secondary" className={`${getSeverityColor(issue.severity)} text-white border-0`}>
-                          {issue.severity.toUpperCase()} SEVERITY
-                        </Badge>
-                            </div>
+
                               </div>
                             </div>
                           )

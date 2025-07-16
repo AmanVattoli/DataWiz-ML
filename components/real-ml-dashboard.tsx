@@ -171,9 +171,7 @@ const RealMLDashboard = ({ fileId }: RealMLDashboardProps) => {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-3">
-                      <Badge variant={issue.severity === 'high' ? 'destructive' : issue.severity === 'medium' ? 'default' : 'secondary'}>
-                        {issue.severity.toUpperCase()}
-                      </Badge>
+
                       <span className="text-sm font-medium text-gray-600">
                         {issue.type.replace(/_/g, ' ').toUpperCase()}
                       </span>
