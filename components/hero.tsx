@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react"
 import { useDropzone } from "react-dropzone"
-import { useSession } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { Upload, File, CheckCircle, Database, Search } from "lucide-react"
@@ -21,7 +20,6 @@ interface ProcessingStageInfo {
 }
 
 export function Hero({ onUploadClick }: HeroProps) {
-  const { data: session, status } = useSession()
   const { fileData, setFileData, setOriginalFileData, resetForNewFile, currentAbortController, setCurrentAbortController } = useDataContext()
   const [uploading, setUploading] = useState(false)
   const [processingStage, setProcessingStage] = useState<ProcessingStage>('uploading')
@@ -64,25 +62,6 @@ export function Hero({ onUploadClick }: HeroProps) {
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0]
     if (!file) return
-
-    // Check if session is ready
-    if (status === 'loading') {
-      toast({
-        title: "Please wait",
-        description: "Loading session, please try again in a moment.",
-        variant: "default",
-      })
-      return
-    }
-
-    if (status === 'unauthenticated') {
-      toast({
-        title: "Authentication required",
-        description: "Please sign in to upload files.",
-        variant: "destructive",
-      })
-      return
-    }
 
     // Validate file type
     if (!file.name.toLowerCase().endsWith('.csv')) {
@@ -197,7 +176,7 @@ export function Hero({ onUploadClick }: HeroProps) {
         setCurrentAbortController(null)
       }
     }
-      }, [setFileData, setOriginalFileData, resetForNewFile, onUploadClick, session, status, currentAbortController, setCurrentAbortController, setShowUploadInterface])
+      }, [setFileData, setOriginalFileData, resetForNewFile, onUploadClick, currentAbortController, setCurrentAbortController, setShowUploadInterface])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -205,30 +184,11 @@ export function Hero({ onUploadClick }: HeroProps) {
       'text/csv': ['.csv']
     },
     maxFiles: 1,
-    disabled: uploading || status === 'loading',
+    disabled: uploading,
     noClick: true // We'll handle click on the button
   })
 
   const handleButtonClick = () => {
-    // Check session before opening file dialog
-    if (status === 'loading') {
-      toast({
-        title: "Please wait",
-        description: "Loading session, please try again in a moment.",
-        variant: "default",
-      })
-      return
-    }
-
-    if (status === 'unauthenticated') {
-      toast({
-        title: "Authentication required",
-        description: "Please sign in to upload files.",
-        variant: "destructive",
-      })
-      return
-    }
-
     // Cancel any ongoing processing before opening file dialog
     if (currentAbortController) {
       currentAbortController.abort()
@@ -291,9 +251,9 @@ export function Hero({ onUploadClick }: HeroProps) {
             
             <div className="flex flex-col items-center space-y-4">
               <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                isDragActive ? 'bg-blue-600' : (uploading || status === 'loading') ? 'bg-gray-700' : 'bg-gray-800'
+                isDragActive ? 'bg-blue-600' : uploading ? 'bg-gray-700' : 'bg-gray-800'
               }`}>
-                {uploading || status === 'loading' ? (
+                                  {uploading ? (
                   <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
                 ) : (
                   <Upload className="w-8 h-8 text-gray-300" />
@@ -302,12 +262,10 @@ export function Hero({ onUploadClick }: HeroProps) {
 
               <div className="w-full">
                 <h3 className="text-white font-semibold text-lg mb-2">
-                  {status === 'loading' ? 'Loading...' : uploading ? getStageInfo(processingStage).label : isDragActive ? 'Drop your CSV file here' : 'Upload CSV File'}
+                  {uploading ? getStageInfo(processingStage).label : isDragActive ? 'Drop your CSV file here' : 'Upload CSV File'}
                 </h3>
                 <p className="text-gray-400 text-sm mb-4">
-                  {status === 'loading' 
-                    ? 'Initializing session...'
-                    : uploading 
+                  {uploading 
                     ? getStageInfo(processingStage).description
                     : 'Drag and drop your CSV file here, or click the button below.'
                   }
@@ -380,11 +338,11 @@ export function Hero({ onUploadClick }: HeroProps) {
             <Button
               size="lg"
               onClick={handleButtonClick}
-              disabled={uploading || status === 'loading'}
+                                disabled={uploading}
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50"
             >
               <File className="w-5 h-5 mr-2" />
-              {status === 'loading' ? 'Loading...' : uploading ? 'Uploading...' : 'Choose File'}
+                              {uploading ? 'Uploading...' : 'Choose File'}
             </Button>
 
               <p className="text-xs text-gray-500 mt-4">

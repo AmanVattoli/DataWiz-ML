@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { SessionProvider } from '@/components/session-provider'
 import { Toaster } from '@/components/ui/toaster'
 
 export const metadata: Metadata = {
@@ -19,10 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider>
-          {children}
-          <Toaster />
-        </SessionProvider>
+        {children}
+        <Toaster />
       </body>
     </html>
   )

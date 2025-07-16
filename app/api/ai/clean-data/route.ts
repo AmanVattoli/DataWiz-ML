@@ -1,16 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/lib/auth'
 import { getCollection } from '@/lib/mongodb'
 import crypto from 'crypto'
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
-    
-    if (!session || !session.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    // Get client IP for basic tracking (optional)
+    const clientIP = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
 
     const body = await request.json()
     const { fileId, operation, method, targetColumns, currentData } = body
@@ -29,8 +24,7 @@ export async function POST(request: NextRequest) {
     // Get file data from database
     const files = await getCollection('uploaded_files')
     const fileRecord = await files.findOne({ 
-      fileId, 
-      userId: session.user.email 
+      fileId
     })
     
     if (!fileRecord) {

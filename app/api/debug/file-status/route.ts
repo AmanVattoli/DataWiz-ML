@@ -1,16 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/lib/auth'
 import { getCollection } from '@/lib/mongodb'
 
 export async function GET(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
-    
-    if (!session || !session.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
     const { searchParams } = new URL(request.url)
     const fileId = searchParams.get('fileId')
 
@@ -21,8 +13,7 @@ export async function GET(request: NextRequest) {
     // Check database for file
     const files = await getCollection('uploaded_files')
     const fileRecord = await files.findOne({ 
-      fileId, 
-      userId: session.user.email 
+      fileId
     })
 
     return NextResponse.json({

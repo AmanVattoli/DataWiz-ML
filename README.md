@@ -1,14 +1,37 @@
-# DataWiz-ML
+# DataWiz
 
-AI-powered data quality analysis tool with machine learning capabilities for comprehensive data assessment and issue detection.
+ML-powered data quality analysis tool with machine learning capabilities for comprehensive data assessment and issue detection.
+
+## About DataWiz
+
+DataWiz is a comprehensive data quality analysis platform that leverages machine learning algorithms to automatically detect, analyze, and report data quality issues in CSV files. The tool combines traditional statistical analysis with advanced ML models to provide deep insights into your data's health and reliability.
+
+### What DataWiz Does
+
+- **Automated Data Profiling**: Generates detailed statistical summaries and data type analysis
+- **ML-Powered Anomaly Detection**: Uses multiple machine learning algorithms to identify outliers and unusual patterns
+- **Data Quality Assessment**: Evaluates completeness, consistency, validity, and accuracy of your datasets
+- **Interactive Visualization**: Provides rich dashboards and charts to visualize data quality metrics
+- **Issue Classification**: Categorizes detected problems by severity and type for prioritized remediation
+- **Pattern Recognition**: Identifies hidden relationships and dependencies within your data
+
+### Key Capabilities
+
+- **Multi-Algorithm Analysis**: Employs ensemble methods using XGBoost, LightGBM, and TensorFlow for robust detection
+- **Real-time Processing**: Processes large datasets efficiently with batch processing capabilities
+- **Comprehensive Reporting**: Generates detailed reports with actionable insights and recommendations
+- **Scalable Architecture**: Built with modern web technologies for handling enterprise-scale data analysis
+- **User-friendly Interface**: Intuitive web interface requiring no technical expertise to operate
 
 ## Features
 
-- 📊 **Data Quality Analysis** - Comprehensive analysis of CSV files
-- 🤖 **Machine Learning Models** - Advanced anomaly detection and pattern recognition
-- 🔍 **Issue Detection** - Automatic identification of data quality problems
-- 📈 **Visual Reports** - Interactive dashboards and data visualization
-- 🧹 **Data Profiling** - Detailed statistical analysis and data profiling
+- 📊 **Data Quality Analysis** - Comprehensive analysis of CSV files with ML-powered insights
+- 🤖 **Machine Learning Models** - Advanced anomaly detection using ensemble methods
+- 🔍 **Issue Detection** - Automatic identification of data quality problems and inconsistencies
+- 📈 **Visual Reports** - Interactive dashboards with detailed charts and metrics
+- 🧹 **Data Profiling** - Statistical analysis with correlation matrices and distribution plots
+- 🎯 **Anomaly Scoring** - Quantitative scoring of data quality issues with confidence levels
+- 📋 **Detailed Logging** - Comprehensive analysis logs for debugging and audit trails
 
 ## Prerequisites
 
@@ -22,8 +45,8 @@ AI-powered data quality analysis tool with machine learning capabilities for com
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/AmanVattoli/DataWiz-ML.git
-cd DataWiz-ML
+git clone https://github.com/AmanVattoli/DataWiz.git
+cd DataWiz
 ```
 
 ### 2. Install Dependencies
@@ -42,14 +65,8 @@ Create a `.env.local` file in the root directory:
 
 ```env
 NODE_ENV=development
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-secret-key-here
 MONGODB_URI=mongodb://localhost:27017/data-wiz
 REDIS_URL=redis://localhost:6379
-
-# Optional: Google OAuth
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
 ```
 
 ### 4. Start Services
@@ -79,20 +96,23 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Usage
 
-1. **Upload CSV File** - Upload your data file for analysis
-2. **View Analysis** - Review comprehensive data quality reports
-3. **Identify Issues** - See detected problems and anomalies
-4. **Export Results** - Download analysis reports
+1. **Upload CSV File** - Upload your data file for analysis through the web interface
+2. **Configure Analysis** - Select analysis parameters and ML models to use
+3. **View Results** - Review comprehensive data quality reports with visualizations
+4. **Identify Issues** - Examine detected problems categorized by type and severity
 
 ## ML Models Included
 
-- **Scikit-learn** - Classification, clustering, and anomaly detection
-- **XGBoost** - Gradient boosting for advanced pattern recognition
-- **LightGBM** - Fast gradient boosting framework
-- **TensorFlow** - Deep learning for complex anomaly detection
-- **PyOD** - Outlier detection algorithms
-- **Cleanlab** - Data cleaning with machine learning
-- **SHAP** - Model interpretability and feature importance
+- **Great Expectations** - Auto-generates expectations and validates data quality rules
+- **Deequ (Amazon)** - Constraint generation and ML anomaly detection
+- **HoloClean** - Probabilistic error detection and repair
+- **Cleanlab** - ML-based mislabel detection
+- **Scikit-learn** - Classification, clustering, and statistical anomaly detection
+- **XGBoost** - Gradient boosting for advanced pattern recognition and feature importance
+- **LightGBM** - Fast gradient boosting framework optimized for large datasets
+- **TensorFlow** - Deep learning models for complex anomaly detection patterns
+- **PyOD** - Comprehensive outlier detection algorithms library
+- **SHAP** - Model interpretability and feature importance analysis
 
 ## Tech Stack
 
@@ -100,28 +120,30 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - **Backend**: Node.js, Next.js API Routes
 - **Database**: MongoDB, Redis
 - **ML/AI**: Python, scikit-learn, XGBoost, TensorFlow
-- **Authentication**: NextAuth.js
+- **Data Processing**: pandas, numpy, scipy
+- **Visualization**: Chart.js, D3.js integration
 
 ## Project Structure
 
 ```
-DataWiz-ML/
+DataWiz/
 ├── app/                    # Next.js app directory
-│   ├── api/               # API routes
-│   └── pages/             # Application pages
-├── components/            # React components
-├── lib/                   # Utility libraries
+│   ├── api/               # API routes for data processing
+│   └── pages/             # Application pages and UI
+├── components/            # React components and UI elements
+├── lib/                   # Utility libraries and helpers
 ├── scripts/               # Python ML scripts
-│   └── data_quality_analyzer.py
-├── public/                # Static assets
-├── temp/                  # Temporary file storage
-└── requirements.txt       # Python dependencies
+│   └── data_quality_analyzer.py  # Main ML analysis engine
+├── public/                # Static assets and images
+├── temp/                  # Temporary file storage for uploads
+└── requirements.txt       # Python ML dependencies
 ```
 
-## Contributing
+## How It Works
 
-Feel free to submit issues and enhancement requests!
-
-## Author
-
-**Aman Vattoli** - [GitHub](https://github.com/AmanVattoli) 
+1. **Data Ingestion**: CSV files are uploaded and validated
+2. **Preprocessing**: Data is cleaned and prepared for ML analysis
+3. **ML Analysis**: Multiple algorithms analyze the data simultaneously
+4. **Issue Detection**: Anomalies and quality issues are identified and scored
+5. **Report Generation**: Comprehensive reports with visualizations are created
+6. **Results Display**: Interactive dashboard presents findings with actionable insights 

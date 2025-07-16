@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
@@ -31,7 +30,6 @@ interface ProcessingStageInfo {
 }
 
 export function FileUpload({ onFileUploaded, accept = ['.csv'] }: FileUploadProps) {
-  const { data: session, status } = useSession()
   const { currentAbortController, setCurrentAbortController } = useDataContext()
   const [uploading, setUploading] = useState(false)
   const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null)
@@ -74,25 +72,6 @@ export function FileUpload({ onFileUploaded, accept = ['.csv'] }: FileUploadProp
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0]
     if (!file) return
-
-    // Check if session is ready
-    if (status === 'loading') {
-      toast({
-        title: "Please wait",
-        description: "Loading session, please try again in a moment.",
-        variant: "default",
-      })
-      return
-    }
-
-    if (status === 'unauthenticated') {
-      toast({
-        title: "Authentication required",
-        description: "Please sign in to upload files.",
-        variant: "destructive",
-      })
-      return
-    }
 
     // Validate file type
     if (!file.name.toLowerCase().endsWith('.csv')) {

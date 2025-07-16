@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getServerSession } from 'next-auth/next'
-import { authOptions } from '@/lib/auth'
 import { getCollection } from '@/lib/mongodb'
 import crypto from 'crypto'
 
@@ -20,14 +18,8 @@ function reconstructFromChunks(chunks: string[]): string {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions)
-    
-    if (!session || !session.user?.email) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    // Simple rate limiting - allow reasonable uploads
-    // Removed Redis dependency for simpler deployment
+    // Get client IP for basic tracking (optional)
+    const clientIP = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown'
 
     const formData = await request.formData()
     const file = formData.get('file') as File
@@ -85,7 +77,7 @@ export async function POST(request: NextRequest) {
         fileId,
         fileName: file.name,
         fileHash,
-        userId: session.user.email,
+        userId: clientIP,
         uploadedAt: new Date(),
         size: file.size,
         rowCount,
@@ -104,7 +96,7 @@ export async function POST(request: NextRequest) {
         fileId,
         fileName: file.name,
         fileHash,
-        userId: session.user.email,
+        userId: clientIP,
         uploadedAt: new Date(),
         size: file.size,
         rowCount,
