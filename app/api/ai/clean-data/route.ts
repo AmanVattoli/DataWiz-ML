@@ -1258,7 +1258,7 @@ async function detectBasicIssues(csvData: string, columns: string[]): Promise<an
         issues.push({
           type: 'email_format',
           severity: 'medium',
-          description: `${invalidEmails.length} invalid email addresses in "${column}"`,
+          description: `Invalid email addresses found in "${column}"`,
           affected_columns: [column],
           count: invalidEmails.length,
           suggestion: 'Fix or remove invalid email addresses',
@@ -1300,7 +1300,7 @@ async function detectBasicIssues(csvData: string, columns: string[]): Promise<an
     issues.push({
       type: 'whitespace',
       severity: 'low',
-      description: `${totalWhitespaceIssues} cells with extra whitespace`,
+      description: `Extra whitespace found in cells`,
       affected_columns: columns,
       count: totalWhitespaceIssues,
       suggestion: 'Trim whitespace from cells',
@@ -1383,18 +1383,7 @@ async function detectBasicIssues(csvData: string, columns: string[]): Promise<an
   
   console.log(`🔍 Basic detection complete. Found ${issues.length} issues in ${isLargeFile ? `sample of ${sampleSize} rows` : 'full dataset'}.`)
   
-  // Add performance note for large files
-  if (isLargeFile) {
-    issues.push({
-      type: 'performance_note',
-      severity: 'low',
-      description: `Analysis performed on sample of ${sampleSize} rows for performance. Full dataset has ${dataRows.length} rows.`,
-      affected_columns: [],
-      count: 0,
-      suggestion: 'Counts and percentages are extrapolated from sample data. Consider analyzing smaller chunks for more detailed analysis.',
-      examples: [`Analyzed ${sampleSize} of ${dataRows.length} rows (${((sampleSize/dataRows.length)*100).toFixed(1)}% sample)`]
-    })
-  }
+  // Remove performance note - not needed in UI
   
   return issues
 }
