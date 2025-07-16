@@ -1106,7 +1106,7 @@ async function detectBasicIssues(csvData: string, columns: string[]): Promise<an
       if (duplicateExamples.length < 3) {
         const firstIndex = indices[0]
         const duplicateIndex = indices[1]
-        duplicateExamples.push(`Row ${duplicateIndex + 2} duplicates row ${firstIndex + 2}: "${analyzedRows[firstIndex].substring(0, 100)}${analyzedRows[firstIndex].length > 100 ? '...' : ''}"`)
+        duplicateExamples.push(`Row ${duplicateIndex + 1} duplicates row ${firstIndex + 1}: "${analyzedRows[firstIndex].substring(0, 100)}${analyzedRows[firstIndex].length > 100 ? '...' : ''}"`)
       }
     }
   }
@@ -1120,7 +1120,7 @@ async function detectBasicIssues(csvData: string, columns: string[]): Promise<an
     issues.push({
       type: 'duplicates',
       severity: 'high',
-      description: `Found ${duplicateCount} duplicate rows`,
+      description: `Duplicate rows found`,
       affected_columns: columns,
       count: duplicateCount,
       suggestion: 'Remove duplicate rows to improve data quality',
@@ -1151,7 +1151,7 @@ async function detectBasicIssues(csvData: string, columns: string[]): Promise<an
       for (let rowIndex = 0; rowIndex < parsedData.length && missingExamples.length < 3; rowIndex++) {
         const val = columnData[rowIndex]
         if (!val || val.trim() === '' || val.toLowerCase() === 'null' || val.toLowerCase() === 'na' || val.toLowerCase() === 'n/a') {
-          const rowNum = rowIndex + 2 // +2 because 0-indexed and header row
+          const rowNum = rowIndex + 1 // +1 because 0-indexed (header row is not included in data rows)
           const displayValue = !val || val.trim() === '' ? '(empty)' : val
           missingExamples.push(`Row ${rowNum}: "${displayValue}"`)
         }
@@ -1160,7 +1160,7 @@ async function detectBasicIssues(csvData: string, columns: string[]): Promise<an
       issues.push({
         type: 'missing_values',
         severity: percentage > 50 ? 'high' : percentage > 20 ? 'medium' : 'low',
-        description: `${actualMissingCount} missing values in "${column}" (${percentage.toFixed(1)}%)`,
+        description: `Missing values found in "${column}"`,
         affected_columns: [column],
         count: actualMissingCount,
         suggestion: 'Fill missing values or remove incomplete rows',
@@ -1219,7 +1219,7 @@ async function detectBasicIssues(csvData: string, columns: string[]): Promise<an
               const formatKey = `${formatType}:${phone}`
               if (!formatsSeen.has(formatKey)) {
                 formatsSeen.add(formatKey)
-                const rowNum = rowIndex + 2
+                const rowNum = rowIndex + 1
                 phoneExamples.push(`Row ${rowNum}: "${phone}" (${formatType})`)
               }
             }
@@ -1250,7 +1250,7 @@ async function detectBasicIssues(csvData: string, columns: string[]): Promise<an
         for (let rowIndex = 0; rowIndex < parsedData.length && emailExamples.length < 3; rowIndex++) {
           const email = parsedData[rowIndex][colIndex]?.trim()
           if (email && email !== '' && !emailRegex.test(email)) {
-            const rowNum = rowIndex + 2 // +2 because 0-indexed and header row
+            const rowNum = rowIndex + 1 // +1 because 0-indexed (header row is not included in data rows)
             emailExamples.push(`Row ${rowNum}: "${email}"`)
           }
         }
@@ -1285,7 +1285,7 @@ async function detectBasicIssues(csvData: string, columns: string[]): Promise<an
       for (let colIndex = 0; colIndex < parsedData[rowIndex].length; colIndex++) {
         const cell = parsedData[rowIndex][colIndex] || ''
         if (cell !== cell.trim() || /\s{2,}/.test(cell)) {
-          const rowNum = rowIndex + 2
+          const rowNum = rowIndex + 1
           const colName = columns[colIndex] || `Column ${colIndex + 1}`
           let issueType = ''
           if (cell !== cell.trim()) issueType = 'leading/trailing spaces'
@@ -1355,7 +1355,7 @@ async function detectBasicIssues(csvData: string, columns: string[]): Promise<an
         issues.push({
           type: 'data_types',
           severity: semanticMismatches.length > semanticSample.length * 0.3 ? 'high' : 'medium',
-          description: `${actualCount} semantic mismatches in "${column}" - content doesn't match expected data type`,
+          description: `Semantic mismatches found in "${column}" - content doesn't match expected data type`,
           affected_columns: [column],
           count: actualCount,
           suggestion: 'Review and correct values that don\'t match the expected data type for this column',
@@ -1370,7 +1370,7 @@ async function detectBasicIssues(csvData: string, columns: string[]): Promise<an
           issues.push({
             type: 'potential_mislabels',
             severity: 'medium',
-            description: `${anomalousContent.length} potentially mislabeled values in "${column}" - content seems inconsistent with other data`,
+            description: `Potentially mislabeled values found in "${column}" - content seems inconsistent with other data`,
             affected_columns: [column],
             count: anomalousContent.length,
             suggestion: 'Review these values - they may be incorrectly placed or contain wrong data types',
@@ -1437,7 +1437,7 @@ function detectOutliers(values: number[], parsedData: string[][], colIndex: numb
       
       // If detected by either method, consider it an outlier
       if (isIQROutlier || isZScoreOutlier) {
-        const rowNum = rowIndex + 2 // +2 because 0-indexed and header row
+        const rowNum = rowIndex + 1 // +1 because 0-indexed (header row is not included in data rows)
         const severity = isIQROutlier && isZScoreOutlier ? 'extreme' : 'moderate'
         examples.push(`Row ${rowNum}: "${cellValue}" (${severity} outlier)`)
         outlierIndices.add(rowIndex)
@@ -1615,7 +1615,7 @@ function detectSemanticMismatches(columnName: string, nonEmptyData: string[], pa
       
       // If we found a mismatch, record it
       if (matchesInvalid || (!matchesExpected && semanticIssue) || semanticIssue) {
-        const rowNum = rowIndex !== -1 ? rowIndex + 2 : 'Unknown' // +2 for header and 0-indexing
+        const rowNum = rowIndex !== -1 ? rowIndex + 1 : 'Unknown' // +1 for 0-indexing (header row is not included in data rows)
         const issue = semanticIssue || 'doesn\'t match expected format'
         const truncatedValue = value.length > 50 ? value.substring(0, 50) + '...' : value
         mismatches.push(`Row ${rowNum}: "${truncatedValue}" (${issue} for ${expectedType} field)`)
@@ -1739,7 +1739,7 @@ function detectAnomalousContent(columnName: string, nonEmptyData: string[], pars
         }
       }
       
-      const rowNum = rowIndex !== -1 ? rowIndex + 2 : 'Unknown'
+              const rowNum = rowIndex !== -1 ? rowIndex + 1 : 'Unknown'
       const truncatedValue = cf.value.length > 50 ? cf.value.substring(0, 50) + '...' : cf.value
       const reasonText = reasons.slice(0, 2).join(', ')
       anomalies.push(`Row ${rowNum}: "${truncatedValue}" (${reasonText})`)

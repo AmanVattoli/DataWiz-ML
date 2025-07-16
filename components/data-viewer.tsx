@@ -419,7 +419,7 @@ export function DataViewer({ fileData, issues = [], onClose }: DataViewerProps) 
                 Showing {filteredData.length} of {fileData.analysis.totalRows} rows • {fileData.analysis.totalColumns} columns
                 {issues.length > 0 && (
                   <span className="ml-2 text-orange-400">
-                    • {issues.length} quality issues detected
+                    • Quality issues detected
                   </span>
                 )}
               </CardDescription>
@@ -620,7 +620,7 @@ export function DataViewer({ fileData, issues = [], onClose }: DataViewerProps) 
             <span>Columns: {fileData.analysis.totalColumns}</span>
             {issues.length > 0 && (
               <span className="text-orange-300">
-                Issues: {issues.length} detected
+                Issues detected
               </span>
             )}
             {selectedColumn && selectedRow !== null && (

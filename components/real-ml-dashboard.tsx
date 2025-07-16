@@ -139,8 +139,8 @@ const RealMLDashboard = ({ fileId }: RealMLDashboardProps) => {
             </p>
           </div>
           <div className="text-right">
-            <div className="text-4xl font-bold text-blue-900">{issues.length}</div>
-            <div className="text-blue-700">Issues Found</div>
+            <div className="text-4xl font-bold text-blue-900">✓</div>
+            <div className="text-blue-700">Analysis Complete</div>
           </div>
         </div>
         
@@ -189,7 +189,6 @@ const RealMLDashboard = ({ fileId }: RealMLDashboardProps) => {
                     </h4>
                     
                     <div className="flex items-center gap-6 text-sm text-gray-600 mb-3">
-                      <span><strong>Count:</strong> {issue.count}</span>
                       {issue.ml_confidence && (
                         <span><strong>ML Confidence:</strong> {(issue.ml_confidence * 100).toFixed(1)}%</span>
                       )}

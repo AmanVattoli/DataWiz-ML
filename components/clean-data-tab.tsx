@@ -183,7 +183,7 @@ export function CleanDataTab() {
         
         toast({
           title: "Data analysis complete",
-          description: `Found ${detectedIssues.length} potential issues in your data.`,
+          description: `Data quality analysis complete. Check the issues panel below for details.`,
         })
       }
     } catch (error) {
@@ -498,7 +498,7 @@ export function CleanDataTab() {
               <div>
                 <CardTitle className="text-white">Data Quality Issues</CardTitle>
                 <CardDescription className="text-gray-400">
-                  {`${issues.length} issues detected in your dataset`}
+                  {`Data quality issues detected in your dataset`}
                 </CardDescription>
               </div>
               <div className="flex items-center space-x-2">

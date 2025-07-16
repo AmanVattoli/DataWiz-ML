@@ -240,7 +240,7 @@ function transformMLResultsForFrontend(mlResults: any): any {
       issues.push({
         type: 'data_inconsistencies',
         severity: error.confidence > 0.9 ? 'high' : 'medium',
-        description: `${error.errors_found} potential data inconsistencies in "${column}"`,
+        description: `Potential data inconsistencies found in "${column}"`,
         affected_columns: [column],
         count: error.errors_found,
         examples: [`Review "${column}" for potential inconsistencies`]
@@ -255,7 +255,7 @@ function transformMLResultsForFrontend(mlResults: any): any {
         issues.push({
           type: 'potential_mislabels',
           severity: 'medium',
-          description: `${detection.total_potential_mislabels} values in "${column}" may need review`,
+          description: `Values in "${column}" may need review`,
           affected_columns: [column],
           count: detection.total_potential_mislabels,
           examples: detection.details.slice(0, 3).map((detail: any) => 
@@ -297,7 +297,7 @@ async function runFallbackAnalysis(csvData: string): Promise<any> {
       issues.push({
         type: 'missing_values',
         severity: emptyCount > dataRows.length * 0.5 ? 'high' : 'medium',
-        description: `${emptyCount} missing values in "${header}"`,
+        description: `Missing values found in "${header}"`,
         affected_columns: [header],
         count: emptyCount,
         examples: ['Check for empty, null, or N/A values']
